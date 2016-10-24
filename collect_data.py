@@ -1,5 +1,5 @@
 #! /usr/bin/env nix-shell
-#! nix-shell collect_data-environment.nix --command 'python3 collect_data.py'
+#! nix-shell --pure collect_data-environment.nix --command 'python3 collect_data.py'
 
 from selenium import webdriver
 from selenium import selenium

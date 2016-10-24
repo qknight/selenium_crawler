@@ -14,7 +14,8 @@ pkgs1.python3Packages.buildPythonPackage rec {
   name = "crawler";
   version = "0.0.1";
 
-  buildInputs = [ pkgs.firefox ];
+  buildInputs = [ pkgs.firefox xorg.xorgserver ];
+
   propagatedBuildInputs = with pkgs1.python3Packages; [
     virtual-display selenium
   ];
