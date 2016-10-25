@@ -40,10 +40,10 @@ for (var i = 0; i < t.length; i++) {
       var myVerein = t[i].getElementsByClassName('archive-titel')[0].innerHTML;
       //console.log(myID,myVerein, myTitle, myVotes)
       var r = new Object();
-      r.id = parseInt(myID);
-      r.votes = parseInt(myVotes);
-      r.verein = myVerein; 
-      r.title = myTitle;
+      r.Id = parseInt(myID);
+      r.Votes = parseInt(myVotes);
+      r.Verein = myVerein; 
+      r.Title = myTitle;
       ret.push(r)
     }
   }
@@ -53,8 +53,8 @@ var date = new Date();
 
 var exp = {};
 
-exp.date = date;
-exp.data = ret;
+exp.Date = date;
+exp.Data = ret;
 
 var j = JSON.stringify(exp,  null, "\t");
 console.log(j);
