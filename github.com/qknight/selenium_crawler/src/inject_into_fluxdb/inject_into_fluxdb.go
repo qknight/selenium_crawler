@@ -2,13 +2,14 @@ package main
 
 import (
 	"encoding/json"
-	// 	"fmt"
 	"github.com/fatih/structs"
 	"github.com/influxdata/influxdb/client/v2"
 	"io/ioutil"
 	"log"
 	"strconv"
 	"time"
+  "fmt"
+//   "os"
 )
 
 type rec struct {
@@ -19,7 +20,7 @@ type rec struct {
 }
 
 type json_message struct {
-	Date time.Time
+	Date string
 	Data []rec
 }
 
@@ -36,7 +37,6 @@ func main() {
 		log.Fatalln("Error: ", err2)
 		return
 	}
-	//fmt.Println(f)
 
 	var l json_message
 	err2 = json.Unmarshal(f, &l)
@@ -44,7 +44,6 @@ func main() {
 		log.Fatalln("Error: ", err2)
 		return
 	}
-	//fmt.Println("--", l)
 
 	// Make client
 	c, err := client.NewHTTPClient(client.HTTPConfig{
@@ -66,9 +65,22 @@ func main() {
 	if err != nil {
 		log.Fatalln("Error: ", err)
 	}
+	
+	layout := "2006-01-02T15:04:05.000Z"
+  t, err3 := time.Parse(layout, l.Date)
 
+  if err3 != nil {
+      fmt.Println(err)
+      return
+  }
+// 	fmt.Println("#### ", time.Now(), " time.Now()")
+//   fmt.Println("|||| ", t.Local().String())
+//   fmt.Println("&&&& ", t.String())
+//      
+//   os.Exit(1)
+	
 	for _, r := range l.Data {
-		pt, err := client.NewPoint("frei", map[string]string{"Id": strconv.Itoa(r.Id)}, structs.Map(r), time.Now())
+		pt, err := client.NewPoint("frei", map[string]string{"Id": strconv.Itoa(r.Id)}, structs.Map(r), t.Local())
 		bp.AddPoint(pt)
 		if err != nil {
 			log.Fatalln("Error: ", err)
